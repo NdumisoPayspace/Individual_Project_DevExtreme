@@ -1,0 +1,14 @@
+﻿<h1>Weather Forecast</h1>
+
+<div id="data-grid-demo">
+    @(Html.DevExtreme().DataGrid()
+        .ID("gridContainer")
+        .Columns(columns =>
+        {
+            columns.Add().DataField("country");
+        })
+        .DataSource(d => d.StaticJson().Url("https://localhost:7152/GetWeatherForecast/midrand")
+       
+        )
+        )
+</div>
