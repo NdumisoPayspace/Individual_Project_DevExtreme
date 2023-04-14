@@ -1,14 +1,49 @@
-﻿<h1>Weather Forecast</h1>
+﻿@model City
+
+<h1>10 Day Weather Forecast  @(ViewBag.city != null ? $"for {ViewBag.city}" : "")</h1>
+
+<div>
+    <form>
+        <label asp-for="CityName">Please enter the name of a city to recieve it's forcast.</label><br>
+        <input asp-for="CityName" type="text" value="@ViewBag.city"><br>
+        <span class="text-danger" asp-validation-for="CityName"></span><br>
+        <input type="submit" value="Submit">
+    </form>
+</div>
 
 <div id="data-grid-demo">
     @(Html.DevExtreme().DataGrid()
         .ID("gridContainer")
+        .SearchPanel(s => s
+            .Visible(true)
+            .HighlightCaseSensitive(true)
+        )
+        .FilterRow(filterRow => filterRow
+        .Visible(true)
+        .ApplyFilter(GridApplyFilterMode.Auto)
+        )
         .Columns(columns =>
         {
+            columns.Add().DataField("name");
+
+            columns.Add().DataField("region");
+
             columns.Add().DataField("country");
+
+            columns.Add().DataField("date")
+            .SortOrder(SortOrder.Asc); ;
+
+            columns.Add().DataField("mintemp_c");
+
+            columns.Add().DataField("maxtemp_c");
+
+            columns.Add().DataField("avgtemp_c");
+
+            columns.Add().DataField("maxwind_kph");
+
+            columns.Add().DataField("avghumidity");
         })
-        .DataSource(d => d.StaticJson().Url("https://localhost:7152/GetWeatherForecast/midrand")
-       
-        )
+        .DataSource(d => d.StaticJson().Url($"https://localhost:7152/GetWeatherForecast/{ViewBag.city}"))
+        .ShowBorders(true)
         )
 </div>

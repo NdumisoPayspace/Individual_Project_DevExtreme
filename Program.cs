@@ -1,7 +1,13 @@
+using FluentValidation;
+using Individual_Project_DevExtreme.Models;
+using Individual_Project_DevExtreme.Validations;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+builder.Services.AddScoped<IValidator<City>, CityValidator>();
 
 var app = builder.Build();
 
